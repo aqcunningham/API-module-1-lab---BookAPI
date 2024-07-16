@@ -1,0 +1,51 @@
+Lab coursework based on Meta API module 1 - Building first API endpoints
+
+
+- Create 2 API endpoints: API/books, API/books/
+- Practice creating a Django model for a database table
+- Create a function-based view
+- Run the server to display the output of your APIs
+- Use GET and POST methods to update a database table built from the model
+
+
+1. Dowload all dependencies
+    pipenv install django // using pipenv better, takes care of more functionality
+    pipenv shell //to open environment
+    pipenv install djangorestframework
+    django-admin startproject BookList .
+    django-admin startapp BookListnAPI
+    'rest_framework', // in settings, along with installed app name
+    # while JSON comes by default in Django, XML, Yaml and CSV need to be downloaded:
+    pipenv install djangorestframework-xml
+    pipenv install djangorestframework-csv
+    pipenv install djangorestframework-yaml
+    # make available globally in settings:
+    # used later in projects
+    REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework_xml.renderers.XMLRenderer',
+        'rest_framework_csv.renderers.CSVRenderer', 
+        'rest_framework_yaml.renderers.YAMLRenderer', 
+    ]
+}
+
+2. In model.py create a Book model with three attributes.
+3. Within this class, created Meta class with models.Index(fields=['price']), to index based on price.
+4. Perform migrations:
+    python manage.py makemigrations
+    python manage.py migrate
+
+5. Create user credentials:
+    python manage.py createsuperuser
+    Username: johndoe
+    Email address: johndoe@dummymail.com
+    Password:
+    Password (again):
+
+6. Inside the Admin panel, add several book titles, authors and prices in Book model.
+5. Write a function view logic in views.py to view or edit data.
+7. To yield the list of books to http://127.0.0.1:8000/api/books/: 
+    add in project-level urls.py: path('api/', include('BookListAPI.urls'));
+    add in app-level urls.py:  path('books/',views.books).
